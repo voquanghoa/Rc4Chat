@@ -18,8 +18,11 @@ namespace CommonShare.Controller
 
 	public class TcpClientController
 	{
+		#region Properties
+		public Client Client { private set; get; }
+		#endregion
+
 		#region Fields
-		private Client client;
 		private TcpClient tcpClient;
 
 		private RC4Stream stream;
@@ -42,7 +45,7 @@ namespace CommonShare.Controller
 		public TcpClientController(string ip, int port)
 		{
 			
-			client = new Client(ip, port);
+			Client = new Client(ip, port);
 			thread = new Thread(Listen);
 		}
 
@@ -56,7 +59,7 @@ namespace CommonShare.Controller
 			var endPoint = (IPEndPoint)tcpClient.Client.LocalEndPoint;
 			var port = endPoint.Port;
 			var ip = endPoint.Address.ToString();
-			client = new Client(ip, port);
+			Client = new Client(ip, port);
 			thread = new Thread(Listen);
 		}
 
@@ -69,7 +72,7 @@ namespace CommonShare.Controller
 			{
 				if (tcpClient == null)
 				{
-					tcpClient = new TcpClient(client.Ip, client.Port);
+					tcpClient = new TcpClient(Client.Ip, Client.Port);
 				}
 
 				stream = new RC4Stream(tcpClient.GetStream());

@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Server.View
 {
-	public partial class Form1 : CoolForm
+	public partial class ServerMainForm : CoolForm
 	{
-		public Form1()
+		public ServerMainForm()
 		{
 			InitializeComponent();
 		}

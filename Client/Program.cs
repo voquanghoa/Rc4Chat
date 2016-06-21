@@ -1,4 +1,6 @@
 ﻿using CommonShare;
+using CommonShare.Controller;
+using CommonShare.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,8 @@ namespace Client
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+		
+			Application.Run(new ClientMainForm());
 		}
 	}
 }

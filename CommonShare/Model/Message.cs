@@ -14,7 +14,9 @@ namespace CommonShare.Model
 
 		public override string ToString()
 		{
-			return base.ToString();
+			var format = Sender == null ? TextResource.SelfMessage : TextResource.RemoteMessageHtmlFormat;
+
+			return format.Replace("{content}", Content);
 		}
 	}
 }
