@@ -22,10 +22,10 @@ namespace CommonShare.Controller
 			Messages.Add(message);
 		}
 
-		public string GetHtml()
+		public string GetHtml(bool useNickname)
 		{
-			var content = string.Join("\n", Messages.Select(x => x.ToString()).ToArray());
-			return string.Format(TextResource.MessageHtmlFormat, content);
+			var content = string.Join("\n", Messages.Select(x => x.ToString(useNickname)).ToArray());
+			return TextResource.MessageHtmlFormat.Replace("{content}", content);
 		}
 	}
 }

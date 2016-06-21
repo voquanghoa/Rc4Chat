@@ -77,8 +77,7 @@ namespace CommonShare {
         ///	&lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///{0}
-        /// [rest of string was truncated]&quot;;.
+        ///{cont [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MessageHtmlFormat {
             get {
@@ -87,7 +86,7 @@ namespace CommonShare {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&apos;message remote&apos; title=&apos;{tite} {time}&apos;&quot; style=&apos;background:{color}&apos;&gt;{nickname} {content} &lt;/div&gt;.
+        ///   Looks up a localized string similar to &lt;div class=&apos;message remote&apos; title=&apos;{tite} &apos;&quot; style=&apos;background:{color}&apos;&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;.
         /// </summary>
         internal static string RemoteMessageHtmlFormat {
             get {
@@ -96,7 +95,7 @@ namespace CommonShare {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&apos;message mine&apos; title=&apos;{title} {time}&apos;&gt;{content}&lt;/div&gt;.
+        ///   Looks up a localized string similar to &lt;div class=&apos;message mine&apos; title=&apos;{title}&apos;&gt;{content}&lt;/div&gt;.
         /// </summary>
         internal static string SelfMessage {
             get {

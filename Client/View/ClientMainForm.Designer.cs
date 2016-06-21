@@ -44,6 +44,7 @@ namespace Client
 			this.sendControl1.Name = "sendControl1";
 			this.sendControl1.Size = new System.Drawing.Size(386, 40);
 			this.sendControl1.TabIndex = 6;
+			this.sendControl1.SendMessage += new CommonShare.View.SendMessage(this.sendControl1_SendMessage);
 			// 
 			// conversationBrower
 			// 
@@ -70,7 +71,7 @@ namespace Client
 			this.progressDialog1.Value = 0;
 			this.progressDialog1.Visible = false;
 			// 
-			// MainForm
+			// ClientMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -79,9 +80,9 @@ namespace Client
 			this.Controls.Add(this.progressDialog1);
 			this.Controls.Add(this.conversationBrower);
 			this.Controls.Add(this.sendControl1);
-			this.Name = "MainForm";
+			this.Name = "ClientMainForm";
 			this.Text = "Chat RC4 Client";
-			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.Load += new System.EventHandler(this.ClientMainForm_Load);
 			this.Controls.SetChildIndex(this.sendControl1, 0);
 			this.Controls.SetChildIndex(this.conversationBrower, 0);
 			this.Controls.SetChildIndex(this.progressDialog1, 0);

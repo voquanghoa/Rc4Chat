@@ -12,9 +12,15 @@ namespace CommonShare.Model
 
 		public string Content { set; get; }
 
-		public override string ToString()
+		public string ToString(bool useNickname)
 		{
-			var format = Sender == null ? TextResource.SelfMessage : TextResource.RemoteMessageHtmlFormat;
+			var format = TextResource.SelfMessage;
+
+			if (Sender != null)
+			{
+				var nickname = useNickname ? Sender.NickName : string.Empty;
+				format = TextResource.RemoteMessageHtmlFormat.Replace("{nickname}", nickname);
+			}
 
 			return format.Replace("{content}", Content);
 		}

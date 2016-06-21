@@ -1,29 +1,39 @@
 ﻿using CommonShare.Controller;
+using CommonShare.Event;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server.Controller
 {
-	public delegate void ReciveMessage(TcpClientController receiver, byte[] data);
-	public delegate void ClientDisconned(TcpClientController disconnecter);
-
 	public class TcpServer
 	{
+		public event RecevedMessage RecevedMessage;
+		public event SentMessage SentMessage;
+
+
 		private List<TcpClientController> tcpClientControllers = new List<TcpClientController>();
 		private TcpListener tcpListener;
 		private object locker = new object();
+		private Thread mainThread;
 
 		public TcpServer(string ip, int port)
 		{
 			tcpListener = new TcpListener(IPAddress.Parse(ip), port);
 		}
 
-		public void Bind()
+		public void StartBind()
+		{
+			mainThread = new Thread(ServiceRunning);
+			mainThread.Start();
+		}
+
+		private void ServiceRunning()
 		{
 			tcpListener.Start();
 			Console.WriteLine("Server started");
@@ -57,16 +67,28 @@ namespace Server.Controller
 			}
 		}
 
-		private void Waiter_ReceiveMessage(TcpClientController receiver, string origin, string encripted)
+		private void Waiter_ReceiveMessage(TcpClientController sender, string origin, string encripted)
+		{
+			BroadcastMessage(sender, encripted);
+			RecevedMessage?.Invoke(sender, origin, encripted);
+		}
+
+		public void BroadcastMessage(TcpClientController fromController, string message)
 		{
 			lock (locker)
 			{
+				var sentEncripted = string.Empty;
 				foreach (var controller in tcpClientControllers)
 				{
-					if (controller != receiver)
+					if (controller != fromController)
 					{
-						controller.Send(encripted);
+						sentEncripted = controller.Send(message);
 					}
+				}
+
+				if (fromController == null && sentEncripted!=string.Empty)
+				{
+					SentMessage?.Invoke(null, message, sentEncripted);
 				}
 			}
 		}

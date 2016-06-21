@@ -134,14 +134,14 @@
 	&lt;/script&gt;
 &lt;/head&gt;
 &lt;body&gt;
-{0}
+{content}
 &lt;/body&gt;
 &lt;/html&gt;</value>
   </data>
   <data name="RemoteMessageHtmlFormat" xml:space="preserve">
-    <value>&lt;div class='message remote' title='{tite} {time}'" style='background:{color}'&gt;{nickname} {content} &lt;/div&gt;</value>
+    <value>&lt;div class='message remote' title='{tite} '" style='background:{color}'&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;</value>
   </data>
   <data name="SelfMessage" xml:space="preserve">
-    <value>&lt;div class='message mine' title='{title} {time}'&gt;{content}&lt;/div&gt;</value>
+    <value>&lt;div class='message mine' title='{title}'&gt;{content}&lt;/div&gt;</value>
   </data>
 </root>

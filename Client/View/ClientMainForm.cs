@@ -24,21 +24,20 @@ namespace Client
 			InitializeComponent();
 		}
 
-		private void MainForm_Load(object sender, EventArgs e)
+		private void ClientMainForm_Load(object sender, EventArgs e)
 		{
-			try
-			{
-				tcpClientController = new TcpClientController(Constants.DefaultAddress, Constants.DefaultPort);
-				tcpClientController.ReceivedMessage += TcpClientController_ReceivedMessage;
-				tcpClientController.SentMessage += TcpClientController_SentMessage;
-				tcpClientController.StartListen();
-			}
-			catch (Exception ex)
-			{
-				ViewUtils.ShowEror($"Không thể kết nối được tới server.\n{ex.Message}");
-				tcpClientController = null;
-				Application.Exit();
-			}
+			tcpClientController = new TcpClientController(Constants.DefaultAddress, Constants.DefaultPort);
+			tcpClientController.ReceivedMessage += TcpClientController_ReceivedMessage;
+			tcpClientController.SentMessage += TcpClientController_SentMessage;
+			tcpClientController.OnError += TcpClientController_OnError;
+			tcpClientController.StartListen();
+		}
+
+		private void TcpClientController_OnError(string message)
+		{
+			ViewUtils.ShowEror($"Không thể kết nối được tới server.\n{message}");
+			tcpClientController = null;
+			Application.Exit();
 		}
 
 		private void TcpClientController_SentMessage(TcpClientController sender, string originMessage, string encryptedMessage)
@@ -57,9 +56,14 @@ namespace Client
 		{
 			Invoke(new Action(() =>
 			{
-				conversationBrower.Document.Write(conversationController.GetHtml());
+				conversationBrower.Document.Write(conversationController.GetHtml(false));
 				conversationBrower.Refresh();
 			}));
+		}
+
+		private void sendControl1_SendMessage(string message)
+		{
+			tcpClientController.Send(message);
 		}
 	}
 }

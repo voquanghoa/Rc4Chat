@@ -45,9 +45,16 @@
   <ItemGroup>
     <Compile Include="Controller\ConversationController.cs" />
     <Compile Include="Controller\TcpClientController.cs" />
+    <Compile Include="Event\Events.cs" />
     <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Client.cs" />
+    <Compile Include="TextResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ViewUtils.cs" />
     <Compile Include="View\CoolForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +113,10 @@
     <Compile Include="Util\RC4Stream.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TextResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TextResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\CoolForm.resx">
       <DependentUpon>CoolForm.cs</DependentUpon>
     </EmbeddedResource>

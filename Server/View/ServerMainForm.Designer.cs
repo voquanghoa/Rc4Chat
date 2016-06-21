@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			this.senderList1 = new CommonShare.View.SenderList();
-			this.sendControl1 = new CommonShare.View.SendControl();
-			this.messageBrower1 = new CommonShare.View.MessageBrower();
+			this.sendMessageControl = new CommonShare.View.SendControl();
+			this.conversationBrower = new CommonShare.View.MessageBrower();
 			this.progressDialog1 = new CommonShare.View.ProgressDialog();
 			this.SuspendLayout();
 			// 
@@ -44,28 +44,29 @@
 			this.senderList1.Size = new System.Drawing.Size(130, 363);
 			this.senderList1.TabIndex = 6;
 			// 
-			// sendControl1
+			// sendMessageControl
 			// 
-			this.sendControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.sendMessageControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.sendControl1.BackColor = System.Drawing.Color.SpringGreen;
-			this.sendControl1.Location = new System.Drawing.Point(3, 375);
-			this.sendControl1.Name = "sendControl1";
-			this.sendControl1.Size = new System.Drawing.Size(377, 40);
-			this.sendControl1.TabIndex = 7;
+			this.sendMessageControl.BackColor = System.Drawing.Color.SpringGreen;
+			this.sendMessageControl.Location = new System.Drawing.Point(3, 375);
+			this.sendMessageControl.Name = "sendMessageControl";
+			this.sendMessageControl.Size = new System.Drawing.Size(377, 40);
+			this.sendMessageControl.TabIndex = 7;
+			this.sendMessageControl.SendMessage += new CommonShare.View.SendMessage(this.sendMessageControl_SendMessage);
 			// 
-			// messageBrower1
+			// conversationBrower
 			// 
-			this.messageBrower1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.conversationBrower.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.messageBrower1.IsWebBrowserContextMenuEnabled = false;
-			this.messageBrower1.Location = new System.Drawing.Point(3, 52);
-			this.messageBrower1.MinimumSize = new System.Drawing.Size(20, 20);
-			this.messageBrower1.Name = "messageBrower1";
-			this.messageBrower1.Size = new System.Drawing.Size(377, 319);
-			this.messageBrower1.TabIndex = 8;
-			this.messageBrower1.WebBrowserShortcutsEnabled = false;
+			this.conversationBrower.IsWebBrowserContextMenuEnabled = false;
+			this.conversationBrower.Location = new System.Drawing.Point(3, 52);
+			this.conversationBrower.MinimumSize = new System.Drawing.Size(20, 20);
+			this.conversationBrower.Name = "conversationBrower";
+			this.conversationBrower.Size = new System.Drawing.Size(377, 319);
+			this.conversationBrower.TabIndex = 8;
+			this.conversationBrower.WebBrowserShortcutsEnabled = false;
 			// 
 			// progressDialog1
 			// 
@@ -79,20 +80,21 @@
 			this.progressDialog1.Value = 0;
 			this.progressDialog1.Visible = false;
 			// 
-			// Form1
+			// ServerMainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(516, 419);
 			this.Controls.Add(this.progressDialog1);
-			this.Controls.Add(this.messageBrower1);
-			this.Controls.Add(this.sendControl1);
+			this.Controls.Add(this.conversationBrower);
+			this.Controls.Add(this.sendMessageControl);
 			this.Controls.Add(this.senderList1);
-			this.Name = "Form1";
+			this.Name = "ServerMainForm";
 			this.Text = "Chat RC4-Server";
+			this.Load += new System.EventHandler(this.ServerMainForm_Load);
 			this.Controls.SetChildIndex(this.senderList1, 0);
-			this.Controls.SetChildIndex(this.sendControl1, 0);
-			this.Controls.SetChildIndex(this.messageBrower1, 0);
+			this.Controls.SetChildIndex(this.sendMessageControl, 0);
+			this.Controls.SetChildIndex(this.conversationBrower, 0);
 			this.Controls.SetChildIndex(this.progressDialog1, 0);
 			this.ResumeLayout(false);
 
@@ -101,8 +103,8 @@
 		#endregion
 
 		private CommonShare.View.SenderList senderList1;
-		private CommonShare.View.SendControl sendControl1;
-		private CommonShare.View.MessageBrower messageBrower1;
+		private CommonShare.View.SendControl sendMessageControl;
+		private CommonShare.View.MessageBrower conversationBrower;
 		private CommonShare.View.ProgressDialog progressDialog1;
 	}
 }

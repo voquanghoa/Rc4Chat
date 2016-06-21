@@ -1,4 +1,5 @@
-﻿using CommonShare.Model;
+﻿using CommonShare.Event;
+using CommonShare.Model;
 using CommonShare.Util;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,6 @@ using System.Threading.Tasks;
 
 namespace CommonShare.Controller
 {
-	public delegate void RecevedMessage(TcpClientController sender, string originMessage, string decryptedMessage);
-	public delegate void SentMessage(TcpClientController sender, string originMessage, string encryptedMessage);
-
-	public delegate void OnError(string message);
-
 	public class TcpClientController
 	{
 		#region Properties
@@ -56,7 +52,7 @@ namespace CommonShare.Controller
 		public TcpClientController(TcpClient tcpClient)
 		{
 			this.tcpClient = tcpClient;
-			var endPoint = (IPEndPoint)tcpClient.Client.LocalEndPoint;
+			var endPoint = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
 			var port = endPoint.Port;
 			var ip = endPoint.Address.ToString();
 			Client = new Client(ip, port);
@@ -122,12 +118,14 @@ namespace CommonShare.Controller
 		}
 
 		#region Send data
-		public void Send(string message)
+		public string Send(string message)
 		{
 			var byteData = encoding.GetBytes(message);
-			var sendData = stream.Send(byteData);
+			var sentData = stream.Send(byteData);
+			var sentString = ConvertByteArrayToString(sentData);
 
-			SentMessage?.Invoke(this, message, ConvertByteArrayToString(sendData));
+			SentMessage?.Invoke(this, message, sentString);
+			return sentString;
 		}
 		#endregion
 
