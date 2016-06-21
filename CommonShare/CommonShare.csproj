@@ -43,7 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\ConversationController.cs" />
     <Compile Include="Controller\TcpClientController.cs" />
+    <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\Client.cs" />
     <Compile Include="View\CoolForm.cs">
       <SubType>Form</SubType>
     </Compile>

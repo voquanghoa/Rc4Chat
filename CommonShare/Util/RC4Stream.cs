@@ -22,15 +22,14 @@ namespace CommonShare.Util
 			this.rc4Converter = new RC4Converter(key);
 		}
 
-		public Tuple<string, byte[]> Send(string message)
+		public byte[] Send(byte[] byteData)
 		{
-			var byteData = encoding.GetBytes(message);
 			var ecryptedData = rc4Converter.Decrypt(byteData);
 			stream.Write(ecryptedData, 0, ecryptedData.Length);
-			return new Tuple<string, byte[]>(message, ecryptedData);
-		}
+			return ecryptedData;
+		}	
 
-		public Tuple<byte[], string> Read()
+		public Tuple<byte[], byte[]> Read()
 		{
 			var length = stream.Read(buffer, 0, buffer.Length);
 
@@ -40,9 +39,8 @@ namespace CommonShare.Util
 				var receivedString = encoding.GetString(receivedData, 0, receivedData.Length);
 
 				var decryptedData = rc4Converter.Decrypt(receivedData);
-				var decryptedString = encoding.GetString(decryptedData, 0, decryptedData.Length);
 
-				return new Tuple<byte[], string>(receivedData, decryptedString);
+				return new Tuple<byte[], byte[]>(receivedData, decryptedData);
 			}
 
 			return null;

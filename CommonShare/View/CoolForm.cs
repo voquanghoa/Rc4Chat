@@ -13,7 +13,8 @@ namespace CommonShare.View
 {
 	public partial class CoolForm : Form
 	{
-		public bool Resizeable { get; set; }
+		public bool Resizeable { get; set; } = true;
+
 		private const int cGrip = 16;    
 
 		public const int WM_NCLBUTTONDOWN = 0xA1;

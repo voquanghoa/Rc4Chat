@@ -1,4 +1,5 @@
-﻿using CommonShare.Util;
+﻿using CommonShare.Model;
+using CommonShare.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,48 +11,69 @@ using System.Threading.Tasks;
 
 namespace CommonShare.Controller
 {
-	public delegate void RecevedMessage(string originMessage, string decryptedMessage);
-	public delegate void SentMessage(string originMessage, string encryptedMessage);
+	public delegate void RecevedMessage(TcpClientController sender, string originMessage, string decryptedMessage);
+	public delegate void SentMessage(TcpClientController sender, string originMessage, string encryptedMessage);
 
 	public delegate void OnError(string message);
 
 	public class TcpClientController
 	{
-		private string ip;
-		private int port;
+		#region Fields
+		private Client client;
+		private TcpClient tcpClient;
 
-		private TcpClient client;
 		private RC4Stream stream;
 		private Thread thread;
+		private Encoding encoding = Encoding.ASCII;
+		#endregion
+
+		#region Events
 		public event RecevedMessage ReceivedMessage;
 		public event SentMessage SentMessage;
 		public event OnError OnError;
+		#endregion
 
-		public int LocalPort
-		{
-			get
-			{
-				if (client != null)
-				{
-					return ((IPEndPoint)client.Client.LocalEndPoint).Port;
-				}
-				return 0;
-			}
-		}
-
+		#region Contructor
+		/// <summary>
+		/// Create a Controller for client
+		/// </summary>
+		/// <param name="ip"></param>
+		/// <param name="port"></param>
 		public TcpClientController(string ip, int port)
 		{
-			this.ip = ip;
-			this.port = port;
+			
+			client = new Client(ip, port);
 			thread = new Thread(Listen);
 		}
 
+		/// <summary>
+		/// Create a controller for server
+		/// </summary>
+		/// <param name="tcpClient"></param>
+		public TcpClientController(TcpClient tcpClient)
+		{
+			this.tcpClient = tcpClient;
+			var endPoint = (IPEndPoint)tcpClient.Client.LocalEndPoint;
+			var port = endPoint.Port;
+			var ip = endPoint.Address.ToString();
+			client = new Client(ip, port);
+			thread = new Thread(Listen);
+		}
+
+		#endregion
+
+		#region Runtime
 		public void StartListen()
 		{
 			try
 			{
-				client = new TcpClient(ip, port);
-				stream = new RC4Stream(client.GetStream());
+				if (tcpClient == null)
+				{
+					tcpClient = new TcpClient(client.Ip, client.Port);
+				}
+
+				stream = new RC4Stream(tcpClient.GetStream());
+
 				thread.Start();
 			}
 			catch (Exception ex)
@@ -62,12 +84,12 @@ namespace CommonShare.Controller
 
 		private void Listen()
 		{
-			while (client.Connected)
+			while (tcpClient.Connected)
 			{
 				try
 				{
 					var readTuple = stream.Read();
-					ReceivedMessage?.Invoke(ConvertByteArrayToString(readTuple.Item1), readTuple.Item2);
+					ProcessReceivedData(readTuple.Item1, readTuple.Item2);
 				}
 				catch (ThreadAbortException) { }
 				catch (Exception ex)
@@ -78,12 +100,6 @@ namespace CommonShare.Controller
 			}
 		}
 
-		public void Send(string message)
-		{
-			var readTuple = stream.Send(message);
-			SentMessage?.Invoke(readTuple.Item1, ConvertByteArrayToString(readTuple.Item2));
-		}
-
 		public void Stop()
 		{
 			if (thread.IsAlive)
@@ -91,6 +107,26 @@ namespace CommonShare.Controller
 				thread.Abort();
 			}
 		}
+		#endregion
+
+		private void ProcessReceivedData(byte[] originData, byte[] descriptedData)
+		{
+			var message = encoding.GetString(descriptedData);
+			if (!message.Equals(Constants.MarkSendFile))
+			{
+				ReceivedMessage?.Invoke(this, ConvertByteArrayToString(originData), message);
+			}
+		}
+
+		#region Send data
+		public void Send(string message)
+		{
+			var byteData = encoding.GetBytes(message);
+			var sendData = stream.Send(byteData);
+
+			SentMessage?.Invoke(this, message, ConvertByteArrayToString(sendData));
+		}
+		#endregion
 
 		private string ConvertByteArrayToString(byte[] data)
 		{

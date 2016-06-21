@@ -40,7 +40,7 @@
 			// 
 			this.btnImage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnImage.BackColor = System.Drawing.Color.LimeGreen;
+			this.btnImage.BackColor = System.Drawing.Color.Transparent;
 			this.btnImage.FlatAppearance.BorderSize = 0;
 			this.btnImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnImage.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -57,7 +57,7 @@
 			// 
 			this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSend.BackColor = System.Drawing.Color.LimeGreen;
+			this.btnSend.BackColor = System.Drawing.Color.Transparent;
 			this.btnSend.FlatAppearance.BorderSize = 0;
 			this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSend.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
