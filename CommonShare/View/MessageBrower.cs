@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CommonShare.Ui
+namespace CommonShare.View
 {
 	public delegate void ShowLink(string url);
 	public partial class MessageBrower : WebBrowser

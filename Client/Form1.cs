@@ -1,4 +1,4 @@
-﻿using CommonShare.Ui;
+﻿using CommonShare.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

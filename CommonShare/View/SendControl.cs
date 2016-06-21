@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CommonShare.Ui
+namespace CommonShare.View
 {
 	public delegate void SendFile(string fileName);
 	public delegate void SendMessage(string message);

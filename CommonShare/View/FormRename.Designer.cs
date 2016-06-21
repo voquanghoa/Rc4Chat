@@ -1,4 +1,4 @@
-﻿namespace CommonShare.Ui
+﻿namespace CommonShare.View
 {
 	partial class FormRename
 	{

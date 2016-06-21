@@ -1,4 +1,4 @@
-﻿using CommonShare.Ui;
+﻿using CommonShare.View;
 
 namespace Client
 {
@@ -30,7 +30,7 @@ namespace Client
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.sendControl1 = new CommonShare.Ui.SendControl();
+			this.sendControl1 = new CommonShare.View.SendControl();
 			this.SuspendLayout();
 			// 
 			// sendControl1

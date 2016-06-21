@@ -43,34 +43,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ui\CoolForm.cs">
+    <Compile Include="Controller\TcpClientController.cs" />
+    <Compile Include="View\CoolForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ui\CoolForm.Designer.cs">
+    <Compile Include="View\CoolForm.Designer.cs">
       <DependentUpon>CoolForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\FormOpenFile.cs">
+    <Compile Include="View\FormOpenFile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ui\FormOpenFile.Designer.cs">
+    <Compile Include="View\FormOpenFile.Designer.cs">
       <DependentUpon>FormOpenFile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\FormRename.cs">
+    <Compile Include="View\FormRename.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ui\FormRename.Designer.cs">
+    <Compile Include="View\FormRename.Designer.cs">
       <DependentUpon>FormRename.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\MessageBrower.cs">
+    <Compile Include="View\MessageBrower.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ui\MessageBrower.Designer.cs">
+    <Compile Include="View\MessageBrower.Designer.cs">
       <DependentUpon>MessageBrower.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\ProgressDialog.cs">
+    <Compile Include="View\ProgressDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Ui\ProgressDialog.Designer.cs">
+    <Compile Include="View\ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,49 +80,51 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Ui\SendControl.cs">
+    <Compile Include="View\SendControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Ui\SendControl.Designer.cs">
+    <Compile Include="View\SendControl.Designer.cs">
       <DependentUpon>SendControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\SenderList.cs">
+    <Compile Include="View\SenderList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Ui\SenderList.Designer.cs">
+    <Compile Include="View\SenderList.Designer.cs">
       <DependentUpon>SenderList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ui\SenderView.cs">
+    <Compile Include="View\SenderView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ui\SenderView.Designer.cs">
+    <Compile Include="View\SenderView.Designer.cs">
       <DependentUpon>SenderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\RC4Converter.cs" />
+    <Compile Include="Util\RC4Stream.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ui\CoolForm.resx">
+    <EmbeddedResource Include="View\CoolForm.resx">
       <DependentUpon>CoolForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\FormOpenFile.resx">
+    <EmbeddedResource Include="View\FormOpenFile.resx">
       <DependentUpon>FormOpenFile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\FormRename.resx">
+    <EmbeddedResource Include="View\FormRename.resx">
       <DependentUpon>FormRename.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\ProgressDialog.resx">
+    <EmbeddedResource Include="View\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\SendControl.resx">
+    <EmbeddedResource Include="View\SendControl.resx">
       <DependentUpon>SendControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\SenderList.resx">
+    <EmbeddedResource Include="View\SenderList.resx">
       <DependentUpon>SenderList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ui\SenderView.resx">
+    <EmbeddedResource Include="View\SenderView.resx">
       <DependentUpon>SenderView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
