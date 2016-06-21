@@ -3,14 +3,6 @@ using CommonShare.Model;
 using CommonShare.View;
 using Server.Controller;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Server.View
 {
@@ -34,13 +26,13 @@ namespace Server.View
 
 		private void TcpServer_SentMessage(TcpClientController sender, string originMessage, string encryptedMessage)
 		{
-			conversationController.Add(null, originMessage);
+			conversationController.Add(null, originMessage, originMessage);
 			UpdateMessageList();
 		}
 
 		private void TcpServer_RecevedMessage(TcpClientController sender, string originMessage, string decryptedMessage)
 		{
-			conversationController.Add(sender.Client, decryptedMessage);
+			conversationController.Add(sender.Client, decryptedMessage, originMessage);
 			UpdateMessageList();
 		}
 

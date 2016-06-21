@@ -139,7 +139,7 @@
 &lt;/html&gt;</value>
   </data>
   <data name="RemoteMessageHtmlFormat" xml:space="preserve">
-    <value>&lt;div class='message remote' title='{tite} '" style='background:{color}'&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;</value>
+    <value>&lt;div class='message remote' title='{title} ' style='background:{color}'&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;</value>
   </data>
   <data name="SelfMessage" xml:space="preserve">
     <value>&lt;div class='message mine' title='{title}'&gt;{content}&lt;/div&gt;</value>

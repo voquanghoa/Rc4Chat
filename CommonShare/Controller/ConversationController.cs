@@ -11,12 +11,13 @@ namespace CommonShare.Controller
 	{
 		private List<Message> Messages = new List<Message>();
 
-		public void Add(Client client, string content)
+		public void Add(Client client, string content, string origin)
 		{
 			var message = new Message()
 			{
 				Content = content,
-				Sender = client
+				Sender = client,
+				Origin = origin
 			};
 
 			Messages.Add(message);

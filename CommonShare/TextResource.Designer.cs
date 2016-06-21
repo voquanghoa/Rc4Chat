@@ -86,7 +86,7 @@ namespace CommonShare {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&apos;message remote&apos; title=&apos;{tite} &apos;&quot; style=&apos;background:{color}&apos;&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;.
+        ///   Looks up a localized string similar to &lt;div class=&apos;message remote&apos; title=&apos;{title} &apos; style=&apos;background:{color}&apos;&gt;&lt;b&gt;{nickname}&lt;/b&gt; {content}&lt;/div&gt;.
         /// </summary>
         internal static string RemoteMessageHtmlFormat {
             get {

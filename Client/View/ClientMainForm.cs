@@ -42,13 +42,13 @@ namespace Client
 
 		private void TcpClientController_SentMessage(TcpClientController sender, string originMessage, string encryptedMessage)
 		{
-			conversationController.Add(null, originMessage);
+			conversationController.Add(null, originMessage, encryptedMessage);
 			UpdateMessageList();
 		}
 
 		private void TcpClientController_ReceivedMessage(TcpClientController sender, string originMessage, string decryptedMessage)
 		{
-			conversationController.Add(sender.Client, decryptedMessage);
+			conversationController.Add(sender.Client, decryptedMessage, originMessage);
 			UpdateMessageList();
 		}
 

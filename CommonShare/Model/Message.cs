@@ -12,6 +12,8 @@ namespace CommonShare.Model
 
 		public string Content { set; get; }
 
+		public string Origin { get; set; }
+
 		public string ToString(bool useNickname)
 		{
 			var format = TextResource.SelfMessage;
@@ -22,7 +24,7 @@ namespace CommonShare.Model
 				format = TextResource.RemoteMessageHtmlFormat.Replace("{nickname}", nickname);
 			}
 
-			return format.Replace("{content}", Content);
+			return format.Replace("{content}", Content).Replace("{title}", Origin);
 		}
 	}
 }
