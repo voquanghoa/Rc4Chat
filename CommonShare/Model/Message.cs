@@ -10,7 +10,7 @@ namespace CommonShare.Model
 {
 	public class Message
 	{
-		private static string allowChars = "!@#$%^&*() =+";
+		private static string allowChars = "!@#$%^&*() =+,./?;:|{}";
 		private static string vietnameseChars = "aAeEoOuUiIdDyYáàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴéèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄóòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠúùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮíìịỉĩÍÌỊỈĨđĐýỳỵỷỹÝỲỴỶỸ";
 		public static Message CreateLink(string filePath, long fileSize, Client sender)
 		{
