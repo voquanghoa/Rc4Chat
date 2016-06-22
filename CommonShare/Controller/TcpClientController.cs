@@ -90,6 +90,7 @@ namespace CommonShare.Controller
 			{
 				try
 				{
+					
 					var readTuple = stream.ReadString();
 					ProcessReceivedData(readTuple.Item1, readTuple.Item2);
 				}
@@ -151,12 +152,12 @@ namespace CommonShare.Controller
 
 		public void SendFile(string fileName)
 		{
-			Send(Constants.MarkSendFile);
+			stream.Send(Constants.MarkSendFile);
 			var nameOnly = Path.GetFileName(fileName);
-			Send(nameOnly);
+			stream.Send(nameOnly);
 			using (var fileStream = File.OpenRead(fileName))
 			{
-				Send("" + fileStream.Length);
+				stream.Send("" + fileStream.Length);
 				int readSize = 0;
 				int sentSize = 0;
 				while ((readSize = fileStream.Read(buffer, 0, buffer.Length)) > 0)

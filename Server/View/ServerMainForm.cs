@@ -3,6 +3,7 @@ using CommonShare.Model;
 using CommonShare.View;
 using Server.Controller;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -25,8 +26,30 @@ namespace Server.View
 			tcpServer.SentMessage += TcpServer_SentMessage;
 			tcpServer.ClientListChange += TcpServer_ClientListChange;
 			tcpServer.SentFile += TcpServer_SentFile;
+			tcpServer.ReceivedFile += TcpServer_ReceivedFile;
 
 			tcpServer.StartBind();
+		}
+
+		private void TcpServer_ReceivedFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
+		{
+			Invoke(new Action(() =>
+			{
+				if (sentByte < totalByte)
+				{
+					progressDialog1.Visible = true;
+					progressDialog1.Action = "Đã nhận: ";
+					progressDialog1.ValueDone = sentByte;
+					progressDialog1.ValueTotal = totalByte;
+					progressDialog1.UpdateValues();
+				}
+				else
+				{
+					progressDialog1.Visible = false;
+					conversationController.Add(sender.Client, Path.Combine(Application.StartupPath, fileName), totalByte);
+					UpdateMessageList();
+				}
+			}));
 		}
 
 		private void TcpServer_SentFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
@@ -36,7 +59,7 @@ namespace Server.View
 				if (sentByte < totalByte)
 				{
 					progressDialog1.Visible = true;
-					progressDialog1.Action = "Send";
+					progressDialog1.Action = "Đã gửi ";
 					progressDialog1.ValueDone = sentByte;
 					progressDialog1.ValueTotal = totalByte;
 					progressDialog1.UpdateValues();
@@ -44,6 +67,8 @@ namespace Server.View
 				else
 				{
 					progressDialog1.Visible = false;
+					conversationController.Add(null, "Đã gửi file: " +fileName, "");
+					UpdateMessageList();
 				}
 			}));
 		}

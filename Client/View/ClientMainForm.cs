@@ -30,9 +30,34 @@ namespace Client
 			tcpClientController = new TcpClientController(Constants.DefaultAddress, Constants.DefaultPort);
 			tcpClientController.ReceivedMessage += TcpClientController_ReceivedMessage;
 			tcpClientController.SentMessage += TcpClientController_SentMessage;
+
 			tcpClientController.OnError += TcpClientController_OnError;
+
 			tcpClientController.ReceivedFile += TcpClientController_ReceivedFile;
+			tcpClientController.SentFile += TcpClientController_SentFile;
+
 			tcpClientController.StartListen();
+		}
+
+		private void TcpClientController_SentFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
+		{
+			Invoke(new Action(() =>
+			{
+				if (sentByte < totalByte)
+				{
+					progressDialog1.Visible = true;
+					progressDialog1.Action = "Đã gửi ";
+					progressDialog1.ValueDone = sentByte;
+					progressDialog1.ValueTotal = totalByte;
+					progressDialog1.UpdateValues();
+				}
+				else
+				{
+					progressDialog1.Visible = false;
+					conversationController.Add(null, "Đã gửi file "+ fileName, "");
+					UpdateMessageList();
+				}
+			}));
 		}
 
 		private void TcpClientController_ReceivedFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
@@ -42,7 +67,7 @@ namespace Client
 				if (sentByte < totalByte)
 				{
 					progressDialog1.Visible = true;
-					progressDialog1.Action = "Send";
+					progressDialog1.Action = "Đã nhận ";
 					progressDialog1.ValueDone = sentByte;
 					progressDialog1.ValueTotal = totalByte;
 					progressDialog1.UpdateValues();
@@ -87,6 +112,21 @@ namespace Client
 		private void sendControl1_SendMessage(string message)
 		{
 			tcpClientController.Send(message);
+		}
+
+		private void sendControl1_SendFile(string fileName)
+		{
+			tcpClientController.SendFile(fileName);
+		}
+
+		private void ClientMainForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (tcpClientController != null)
+			{
+				tcpClientController.Stop();
+				tcpClientController = null;
+			}
+			Application.Exit();
 		}
 	}
 }

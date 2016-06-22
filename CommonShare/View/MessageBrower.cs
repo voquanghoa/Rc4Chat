@@ -10,11 +10,8 @@ using System.Windows.Forms;
 
 namespace CommonShare.View
 {
-	public delegate void ShowLink(string url);
 	public partial class MessageBrower : WebBrowser
 	{
-		public event ShowLink ShowLink;
-
 		public MessageBrower()
 		{
 			InitializeComponent();

@@ -19,7 +19,9 @@ namespace Server.Controller
 	{
 		public event RecevedMessage RecevedMessage;
 		public event SentMessage SentMessage;
+
 		public event SentFile SentFile;
+		public event SentFile ReceivedFile;
 
 		public event ClientListChange ClientListChange;
 		private bool isStopService = false;
@@ -73,6 +75,7 @@ namespace Server.Controller
 
 					tcpClientController.ReceivedMessage += Waiter_ReceiveMessage;
 					tcpClientController.SentFile += TcpClientController_SentFile;
+					tcpClientController.ReceivedFile += TcpClientController_ReceivedFile;
 					//tcpClientController. += Waiter_ClientDisconned;
 
 					tcpClientController.StartListen();
@@ -84,8 +87,12 @@ namespace Server.Controller
 					ClientListChange?.Invoke();
 				}
 				catch { }
-				
 			}
+		}
+
+		private void TcpClientController_ReceivedFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
+		{
+			ReceivedFile?.Invoke(sender, fileName, sentByte, totalByte);
 		}
 
 		private void TcpClientController_SentFile(TcpClientController sender, string fileName, long sentByte, long totalByte)

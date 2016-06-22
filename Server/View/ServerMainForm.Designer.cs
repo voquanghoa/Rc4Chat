@@ -72,8 +72,7 @@
 			// 
 			// progressDialog1
 			// 
-			this.progressDialog1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.progressDialog1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.progressDialog1.Location = new System.Drawing.Point(0, 306);
 			this.progressDialog1.Name = "progressDialog1";

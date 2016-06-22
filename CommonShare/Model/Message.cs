@@ -17,6 +17,7 @@ namespace CommonShare.Model
 				.Replace("{path}", filePath.Replace(":", "(~*)"))
 				.Replace("{filename}", Path.GetFileName(filePath))
 				.Replace("{size}", FileSizeConverter.ConvertToString(fileSize));
+			message.Sender = sender;
 
 
 			return message;
