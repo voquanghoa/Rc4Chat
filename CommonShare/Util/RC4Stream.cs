@@ -46,6 +46,7 @@ namespace CommonShare.Util
 			var encryptedData = rc4Converter.Decrypt(byteData);
 			binWriter.Write(encryptedData.Length);
 			binWriter.Write(encryptedData);
+			binWriter.Flush();
 
 			return ConvertByteArrayToString(encryptedData);
 		}	

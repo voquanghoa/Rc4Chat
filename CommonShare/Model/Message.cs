@@ -10,6 +10,8 @@ namespace CommonShare.Model
 {
 	public class Message
 	{
+		private static string allowChars = "!@#$%^&*() =+";
+		private static string vietnameseChars = "aAeEoOuUiIdDyYáàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴéèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄóòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠúùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮíìịỉĩÍÌỊỈĨđĐýỳỵỷỹÝỲỴỶỸ";
 		public static Message CreateLink(string filePath, long fileSize, Client sender)
 		{
 			var message = new Message();
@@ -38,6 +40,15 @@ namespace CommonShare.Model
 				var nickname = useNickname ? Sender.NickName : string.Empty;
 				format = TextResource.RemoteMessageHtmlFormat.Replace("{nickname}", nickname);
 			}
+
+			Content = string.Join("", (from x in Content
+					   let upper = char.ToUpper(x)
+					   where (upper >= 'A' && upper <= 'Z') 
+							|| char.IsDigit(upper) 
+							|| allowChars.Contains(x)
+							|| vietnameseChars.Contains(x)
+						select x).ToArray());
+
 
 			return format.Replace("{content}", Content).Replace("{title}", Origin);
 		}
