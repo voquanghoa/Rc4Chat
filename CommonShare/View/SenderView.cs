@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace CommonShare.View
 {
-	public delegate void Updated(SenderView sender);
+	public delegate void Updated();
 
 	public partial class SenderView : Button
 	{ 
-		public event Updated Updated;
+		public Updated Updated { set; get; }
 
 		public string NickName { get; set; }
 		public Color Color { get; set; }
@@ -37,7 +37,7 @@ namespace CommonShare.View
 				NickName = frm.NickName;
 				Text = NickName;
 				BackColor = Color;
-				Updated?.Invoke(this);
+				Updated?.Invoke();
 			}
 		}
 	}

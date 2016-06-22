@@ -27,7 +27,7 @@ namespace CommonShare.View
 			if (e.Url.ToString() != "about:blank")
 			{
 				string url = e.Url.PathAndQuery;
-				ShowLink?.Invoke(url);
+				new FormOpenFile(url).Show(this);
 			}
 		}
 	}

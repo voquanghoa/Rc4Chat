@@ -10,21 +10,30 @@ using System.Windows.Forms;
 
 namespace CommonShare.View
 {
+	public delegate void SenderListUpdate();
+
 	public partial class SenderList : UserControl
 	{
+		public event SenderListUpdate UpdateList;
+
 		public SenderList()
 		{
 			InitializeComponent();
 		}
 
-		public Button Add(string name)
+		public void AddButtons(SenderView[] senderViews)
 		{
-			var button = new SenderView(name);
-			button.Width = Width;
 			SuspendLayout();
-			Controls.Add(button);
+			this.Controls.Clear();
+			this.Controls.AddRange(senderViews.ToArray());
 			ResumeLayout();
-			return button;
+
+			senderViews.ToList().ForEach(x => x.Updated = RequestUpdate);
+		}
+
+		public void RequestUpdate()
+		{
+			UpdateList?.Invoke();
 		}
 	}
 }

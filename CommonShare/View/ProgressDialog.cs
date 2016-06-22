@@ -7,38 +7,59 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CommonShare.Util;
 
 namespace CommonShare.View
 {
 	public partial class ProgressDialog : UserControl
 	{
+		private long done;
+		private long total;
+		private string fileName;
+		private string action;
+
 		public ProgressDialog()
 		{
 			InitializeComponent();
 		}
 
-		public int Value
+		public void UpdateValues()
 		{
-			get
-			{
-				return progressBar.Value;
-			}
+			var strDone = FileSizeConverter.ConvertToString(done);
+			var strTotal = FileSizeConverter.ConvertToString(total);
+			lblFile.Text = string.Format("{0} {1} {2}/{3}", action, fileName, strDone, strTotal);
+			progressBar.Value =(int) (100 * done / total);
+		}
 
+		public string FileName
+		{
 			set
 			{
-				progressBar.Value = value;
+				fileName = value;
 			}
 		}
 
-		public override string Text
+		public long ValueTotal
 		{
 			set
 			{
-				lblFile.Text = value;
+				total = value;
 			}
-			get
+		}
+
+		public long ValueDone
+		{
+			set
 			{
-				return lblFile.Text;
+				done = value;
+			}
+		}
+
+		public string Action
+		{
+			set
+			{
+				action = value;
 			}
 		}
 	}

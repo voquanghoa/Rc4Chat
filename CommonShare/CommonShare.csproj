@@ -54,6 +54,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TextResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Util\FileSizeConverter.cs" />
     <Compile Include="Util\ViewUtils.cs" />
     <Compile Include="View\CoolForm.cs">
       <SubType>Form</SubType>

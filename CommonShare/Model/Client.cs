@@ -14,21 +14,16 @@ namespace CommonShare.Model
 	{
 		public string Ip { get; set; }
 		public int Port { get; set; }
-		private string customNickname = string.Empty;
 
 		public string NickName
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(customNickname))
-				{
-					return string.Format("{0}:{1}", Ip, Port);
-				}
-				return customNickname;
+				return SenderView.Text;
 			}
 			set
 			{
-				customNickname = value;
+				SenderView.Text = value;
 			}
 		}
 
@@ -50,6 +45,7 @@ namespace CommonShare.Model
 		{
 			Ip = ip;
 			Port = port;
+			SenderView = new SenderView(string.Format("{0}:{1}", Ip, Port));
 		}
 	}
 }

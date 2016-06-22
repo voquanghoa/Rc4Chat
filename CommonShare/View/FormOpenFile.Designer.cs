@@ -85,6 +85,7 @@
 			this.ClientSize = new System.Drawing.Size(434, 113);
 			this.Controls.Add(this.panel2);
 			this.Name = "FormOpenFile";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "FormOpenFile";
 			this.Load += new System.EventHandler(this.FormOpenFile_Load);
 			this.Controls.SetChildIndex(this.panel2, 0);

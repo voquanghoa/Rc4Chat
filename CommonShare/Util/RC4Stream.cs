@@ -11,39 +11,56 @@ namespace CommonShare.Util
 	{
 		private const string key = "awkwzlawlauss2@ww";
 
-		private Stream stream;
+		private BinaryReader binReader;
+		private BinaryWriter binWriter;
+
 		private byte[] buffer = new byte[10 * 1024];
 		private RC4Converter rc4Converter;
 		private Encoding encoding = Encoding.ASCII;
 
 		public RC4Stream(Stream stream)
 		{
-			this.stream = stream;
+			this.binReader = new BinaryReader(stream);
+			this.binWriter = new BinaryWriter(stream);
+
 			this.rc4Converter = new RC4Converter(key);
 		}
 
-		public byte[] Send(byte[] byteData)
+		public string Send(string message)
 		{
-			var ecryptedData = rc4Converter.Decrypt(byteData);
-			stream.Write(ecryptedData, 0, ecryptedData.Length);
-			return ecryptedData;
+			return Send(encoding.GetBytes(message));
+		}
+
+		public string Send(byte[] byteData)
+		{
+			var encryptedData = rc4Converter.Decrypt(byteData);
+			binWriter.Write(encryptedData.Length);
+			binWriter.Write(encryptedData);
+
+			return ConvertByteArrayToString(encryptedData);
 		}	
 
-		public Tuple<byte[], byte[]> Read()
+		public Tuple<byte[], byte[]> ReadBytes()
 		{
-			var length = stream.Read(buffer, 0, buffer.Length);
+			int length = binReader.ReadInt32();
+			var originData = binReader.ReadBytes(length);
+			var decriptedData = rc4Converter.Decrypt(originData);
 
-			if (length > 0)
-			{
-				var receivedData = buffer.Take(length).ToArray();
-				var receivedString = encoding.GetString(receivedData, 0, receivedData.Length);
+			return new Tuple<byte[], byte[]>(originData, decriptedData);
+		}
 
-				var decryptedData = rc4Converter.Decrypt(receivedData);
+		public Tuple<string, string> ReadString()
+		{
+			var data = ReadBytes();
+			var origin = ConvertByteArrayToString(data.Item1);
+			var encripted = encoding.GetString(data.Item2);
 
-				return new Tuple<byte[], byte[]>(receivedData, decryptedData);
-			}
+			return new Tuple<string, string>(origin, encripted);
+		}
 
-			return null;
+		private string ConvertByteArrayToString(byte[] data)
+		{
+			return string.Join(" ", data.Select(x => x.ToString("X2")).ToArray());
 		}
 	}
 }

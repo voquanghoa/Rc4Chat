@@ -3,6 +3,8 @@ using CommonShare.Model;
 using CommonShare.View;
 using Server.Controller;
 using System;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Server.View
 {
@@ -21,12 +23,40 @@ namespace Server.View
 			tcpServer = new TcpServer(Constants.DefaultAddress, Constants.DefaultPort);
 			tcpServer.RecevedMessage += TcpServer_RecevedMessage;
 			tcpServer.SentMessage += TcpServer_SentMessage;
+			tcpServer.ClientListChange += TcpServer_ClientListChange;
+			tcpServer.SentFile += TcpServer_SentFile;
+
 			tcpServer.StartBind();
+		}
+
+		private void TcpServer_SentFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
+		{
+			Invoke(new Action(() =>
+			{
+				if (sentByte < totalByte)
+				{
+					progressDialog1.Visible = true;
+					progressDialog1.Action = "Send";
+					progressDialog1.ValueDone = sentByte;
+					progressDialog1.ValueTotal = totalByte;
+					progressDialog1.UpdateValues();
+				}
+				else
+				{
+					progressDialog1.Visible = false;
+				}
+			}));
+		}
+
+		private void TcpServer_ClientListChange()
+		{
+			var buttons = tcpServer.GetButton();
+			Invoke(new Action(() => senderList1.AddButtons(buttons)));
 		}
 
 		private void TcpServer_SentMessage(TcpClientController sender, string originMessage, string encryptedMessage)
 		{
-			conversationController.Add(null, originMessage, originMessage);
+			conversationController.Add(null, originMessage, encryptedMessage);
 			UpdateMessageList();
 		}
 
@@ -48,7 +78,28 @@ namespace Server.View
 
 		private void sendMessageControl_SendMessage(string message)
 		{
-			tcpServer.BroadcastMessage(null, message);
+			new Thread(() =>{tcpServer.BroadcastMessage(null, message);}).Start();
+		}
+
+		private void senderList1_UpdateList()
+		{
+			UpdateMessageList();
+		}
+
+		private void ServerMainForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			if (tcpServer != null)
+			{
+				tcpServer.Stop();
+				tcpServer = null;
+			}
+			Application.Exit();
+		}
+
+		private void sendMessageControl_SendFile(string fileName)
+		{
+			new Thread(() => { tcpServer.BroadcastFile(null, fileName); }).Start();
+			
 		}
 	}
 }

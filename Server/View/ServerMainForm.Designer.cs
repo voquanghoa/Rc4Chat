@@ -43,6 +43,7 @@
 			this.senderList1.Name = "senderList1";
 			this.senderList1.Size = new System.Drawing.Size(130, 363);
 			this.senderList1.TabIndex = 6;
+			this.senderList1.UpdateList += new CommonShare.View.SenderListUpdate(this.senderList1_UpdateList);
 			// 
 			// sendMessageControl
 			// 
@@ -53,6 +54,7 @@
 			this.sendMessageControl.Name = "sendMessageControl";
 			this.sendMessageControl.Size = new System.Drawing.Size(377, 40);
 			this.sendMessageControl.TabIndex = 7;
+			this.sendMessageControl.SendFile += new CommonShare.View.SendFile(this.sendMessageControl_SendFile);
 			this.sendMessageControl.SendMessage += new CommonShare.View.SendMessage(this.sendMessageControl_SendMessage);
 			// 
 			// conversationBrower
@@ -77,7 +79,6 @@
 			this.progressDialog1.Name = "progressDialog1";
 			this.progressDialog1.Size = new System.Drawing.Size(380, 65);
 			this.progressDialog1.TabIndex = 9;
-			this.progressDialog1.Value = 0;
 			this.progressDialog1.Visible = false;
 			// 
 			// ServerMainForm
@@ -91,6 +92,7 @@
 			this.Controls.Add(this.senderList1);
 			this.Name = "ServerMainForm";
 			this.Text = "Chat RC4-Server";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ServerMainForm_FormClosed);
 			this.Load += new System.EventHandler(this.ServerMainForm_Load);
 			this.Controls.SetChildIndex(this.senderList1, 0);
 			this.Controls.SetChildIndex(this.sendMessageControl, 0);

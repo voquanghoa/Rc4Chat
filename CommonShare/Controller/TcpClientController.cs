@@ -3,6 +3,7 @@ using CommonShare.Model;
 using CommonShare.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -23,12 +24,14 @@ namespace CommonShare.Controller
 
 		private RC4Stream stream;
 		private Thread thread;
-		private Encoding encoding = Encoding.ASCII;
+		private byte[] buffer = new byte[10 * 1024];
 		#endregion
 
 		#region Events
 		public event RecevedMessage ReceivedMessage;
 		public event SentMessage SentMessage;
+		public event SentFile SentFile;
+		public event SentFile ReceivedFile;
 		public event OnError OnError;
 		#endregion
 
@@ -87,7 +90,7 @@ namespace CommonShare.Controller
 			{
 				try
 				{
-					var readTuple = stream.Read();
+					var readTuple = stream.ReadString();
 					ProcessReceivedData(readTuple.Item1, readTuple.Item2);
 				}
 				catch (ThreadAbortException) { }
@@ -108,24 +111,61 @@ namespace CommonShare.Controller
 		}
 		#endregion
 
-		private void ProcessReceivedData(byte[] originData, byte[] descriptedData)
+		private void ProcessReceivedData(string originData, string descriptedData)
 		{
-			var message = encoding.GetString(descriptedData);
+			var message = descriptedData;
 			if (!message.Equals(Constants.MarkSendFile))
 			{
-				ReceivedMessage?.Invoke(this, ConvertByteArrayToString(originData), message);
+				ReceivedMessage?.Invoke(this, originData, message);
+			}
+			else
+			{
+				ReceiveFile();
 			}
 		}
 
+		private void ReceiveFile()
+		{
+			var fileName = stream.ReadString().Item2;
+
+			using (var filestream = File.OpenWrite(fileName))
+			{
+				var fileSize = long.Parse(stream.ReadString().Item2);
+				var receivedByteTotal = 0;
+				while (receivedByteTotal < fileSize)
+				{
+					var receiveData = stream.ReadBytes().Item2;
+					filestream.Write(receiveData, 0, receiveData.Length);
+					receivedByteTotal += receiveData.Length;
+					ReceivedFile?.Invoke(this, fileName, receivedByteTotal, fileSize);
+				}
+			}
+		}
 		#region Send data
 		public string Send(string message)
 		{
-			var byteData = encoding.GetBytes(message);
-			var sentData = stream.Send(byteData);
-			var sentString = ConvertByteArrayToString(sentData);
-
+			var sentString = stream.Send(message); 
 			SentMessage?.Invoke(this, message, sentString);
 			return sentString;
+		}
+
+		public void SendFile(string fileName)
+		{
+			Send(Constants.MarkSendFile);
+			var nameOnly = Path.GetFileName(fileName);
+			Send(nameOnly);
+			using (var fileStream = File.OpenRead(fileName))
+			{
+				Send("" + fileStream.Length);
+				int readSize = 0;
+				int sentSize = 0;
+				while ((readSize = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					stream.Send(new ArraySegment<byte>(buffer, 0, readSize).Array);
+					sentSize += readSize;
+					SentFile?.Invoke(this, nameOnly, sentSize, fileStream.Length);
+				}
+			}
 		}
 		#endregion
 

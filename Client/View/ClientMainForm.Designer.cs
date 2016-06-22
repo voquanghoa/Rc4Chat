@@ -68,7 +68,6 @@ namespace Client
 			this.progressDialog1.Name = "progressDialog1";
 			this.progressDialog1.Size = new System.Drawing.Size(386, 65);
 			this.progressDialog1.TabIndex = 8;
-			this.progressDialog1.Value = 0;
 			this.progressDialog1.Visible = false;
 			// 
 			// ClientMainForm

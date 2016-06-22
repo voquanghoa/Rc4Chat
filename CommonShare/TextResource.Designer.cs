@@ -61,6 +61,15 @@ namespace CommonShare {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;a href=&apos;{path}&apos;&gt;&lt;b&gt;{filename}&lt;/b&gt;&lt;/a&gt; {size}.
+        /// </summary>
+        internal static string LinkFormat {
+            get {
+                return ResourceManager.GetString("LinkFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;

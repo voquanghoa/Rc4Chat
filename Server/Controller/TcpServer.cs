@@ -1,13 +1,17 @@
 ﻿using CommonShare.Controller;
 using CommonShare.Event;
+using CommonShare.Model;
+using CommonShare.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Server.Controller
 {
@@ -15,11 +19,17 @@ namespace Server.Controller
 	{
 		public event RecevedMessage RecevedMessage;
 		public event SentMessage SentMessage;
+		public event SentFile SentFile;
 
+		public event ClientListChange ClientListChange;
+		private bool isStopService = false;
+		
 
 		private List<TcpClientController> tcpClientControllers = new List<TcpClientController>();
+		private object listControllerLockObject = new object();
+
 		private TcpListener tcpListener;
-		private object locker = new object();
+		
 		private Thread mainThread;
 
 		public TcpServer(string ip, int port)
@@ -33,36 +43,73 @@ namespace Server.Controller
 			mainThread.Start();
 		}
 
+		public void Stop()
+		{
+			try
+			{
+				tcpListener.Stop();
+				isStopService = true;
+			}
+			catch { }
+		}
+
 		private void ServiceRunning()
 		{
 			tcpListener.Start();
 			Console.WriteLine("Server started");
 
-			while (true)
+			while (!isStopService)
 			{
-				var tcpClient = tcpListener.AcceptTcpClient();
-				var tcpClientController = new TcpClientController(tcpClient);
-
-				tcpClientController.ReceivedMessage += Waiter_ReceiveMessage;
-				//tcpClientController. += Waiter_ClientDisconned;
-
-				tcpClientController.StartListen();
-
-				lock (locker)
+				try
 				{
-					tcpClientControllers.Add(tcpClientController);
+					if (!tcpListener.Pending())
+					{
+						Thread.Sleep(500); 
+						continue; 
+					}
+
+					var tcpClient = tcpListener.AcceptTcpClient();
+					var tcpClientController = new TcpClientController(tcpClient);
+
+					tcpClientController.ReceivedMessage += Waiter_ReceiveMessage;
+					tcpClientController.SentFile += TcpClientController_SentFile;
+					//tcpClientController. += Waiter_ClientDisconned;
+
+					tcpClientController.StartListen();
+
+					lock (listControllerLockObject)
+					{
+						tcpClientControllers.Add(tcpClientController);
+					}
+					ClientListChange?.Invoke();
 				}
+				catch { }
+				
+			}
+		}
+
+		private void TcpClientController_SentFile(TcpClientController sender, string fileName, long sentByte, long totalByte)
+		{
+			SentFile?.Invoke(sender, fileName, sentByte, totalByte);
+		}
+
+		public SenderView[] GetButton()
+		{
+			lock (listControllerLockObject)
+			{
+				return tcpClientControllers.Select(x => x.Client.SenderView).ToArray();
 			}
 		}
 
 		private void Waiter_ClientDisconned(TcpClientController disconnecter)
 		{
-			lock (locker)
+			lock (listControllerLockObject)
 			{
 				if (tcpClientControllers.Contains(disconnecter))
 				{
 					Console.WriteLine("Remove a client");
 					tcpClientControllers.Remove(disconnecter);
+					ClientListChange?.Invoke();
 				}
 			}
 		}
@@ -73,9 +120,24 @@ namespace Server.Controller
 			RecevedMessage?.Invoke(sender, origin, encripted);
 		}
 
+		public void BroadcastFile(TcpClientController fromController, string fileName)
+		{
+			lock (listControllerLockObject)
+			{
+				var sentEncripted = string.Empty;
+				foreach (var controller in tcpClientControllers)
+				{
+					if (controller != fromController && !isStopService)
+					{
+						controller.SendFile(fileName);
+					}
+				}
+			}
+		}
+
 		public void BroadcastMessage(TcpClientController fromController, string message)
 		{
-			lock (locker)
+			lock (listControllerLockObject)
 			{
 				var sentEncripted = string.Empty;
 				foreach (var controller in tcpClientControllers)

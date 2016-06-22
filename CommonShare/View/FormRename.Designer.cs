@@ -65,11 +65,12 @@
 			// txtMessage
 			// 
 			this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.txtMessage.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtMessage.Location = new System.Drawing.Point(5, 10);
 			this.txtMessage.MaxLength = 500;
 			this.txtMessage.Name = "txtMessage";
 			this.txtMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.txtMessage.Size = new System.Drawing.Size(180, 18);
+			this.txtMessage.Size = new System.Drawing.Size(180, 22);
 			this.txtMessage.TabIndex = 0;
 			// 
 			// btnChonMau
@@ -87,8 +88,9 @@
 			this.btnChonMau.UseVisualStyleBackColor = false;
 			this.btnChonMau.Click += new System.EventHandler(this.btnChonMau_Click);
 			// 
-			// frmRename
+			// FormRename
 			// 
+			this.AcceptButton = this.btnChange;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(350, 125);
 			this.Controls.Add(this.btnChonMau);

@@ -15,11 +15,11 @@ namespace CommonShare.View
 	public partial class FormOpenFile : CoolForm
 	{
 		string Address = "";
-		Uri url;
+		private Uri url;
 		public FormOpenFile(string address)
 		{
 			InitializeComponent();
-			Address = address.Replace("(~*)", ":");
+			Address = address.Replace("(~*)", ":").Replace("%5C", "\\");
 		}
 
 		protected override CreateParams CreateParams

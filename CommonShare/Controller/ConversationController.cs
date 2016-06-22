@@ -23,6 +23,11 @@ namespace CommonShare.Controller
 			Messages.Add(message);
 		}
 
+		public void Add(Client client, string filePath, long size)
+		{
+			Messages.Add(Message.CreateLink(filePath, size, client));
+		}
+
 		public string GetHtml(bool useNickname)
 		{
 			var content = string.Join("\n", Messages.Select(x => x.ToString(useNickname)).ToArray());
