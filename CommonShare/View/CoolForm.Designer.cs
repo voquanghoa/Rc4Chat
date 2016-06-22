@@ -30,9 +30,10 @@
 		{
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnMinimize = new System.Windows.Forms.Button();
-			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.lblTitle = new System.Windows.Forms.Label();
 			this.btnExit = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.pictureBox2 = new System.Windows.Forms.PictureBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -42,6 +43,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
+			this.panel1.Controls.Add(this.button1);
 			this.panel1.Controls.Add(this.btnMinimize);
 			this.panel1.Controls.Add(this.pictureBox2);
 			this.panel1.Controls.Add(this.lblTitle);
@@ -71,16 +73,6 @@
 			this.btnMinimize.Text = "---";
 			this.btnMinimize.UseVisualStyleBackColor = false;
 			this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
-			// 
-			// pictureBox2
-			// 
-			this.pictureBox2.Image = global::CommonShare.Properties.Resources._1459234947_message_01;
-			this.pictureBox2.Location = new System.Drawing.Point(15, 13);
-			this.pictureBox2.Name = "pictureBox2";
-			this.pictureBox2.Size = new System.Drawing.Size(24, 24);
-			this.pictureBox2.TabIndex = 3;
-			this.pictureBox2.TabStop = false;
-			this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CoolForm_MouseDown);
 			// 
 			// lblTitle
 			// 
@@ -112,6 +104,35 @@
 			this.btnExit.Text = "X";
 			this.btnExit.UseVisualStyleBackColor = false;
 			this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+			// 
+			// button1
+			// 
+			this.button1.BackColor = System.Drawing.Color.Transparent;
+			this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+			this.button1.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
+			this.button1.FlatAppearance.BorderSize = 0;
+			this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(111)))), ((int)(((byte)(27)))));
+			this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(125)))), ((int)(((byte)(30)))));
+			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.button1.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+			this.button1.ForeColor = System.Drawing.Color.White;
+			this.button1.Location = new System.Drawing.Point(423, 0);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(50, 50);
+			this.button1.TabIndex = 5;
+			this.button1.Text = "K";
+			this.button1.UseVisualStyleBackColor = false;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// pictureBox2
+			// 
+			this.pictureBox2.Image = global::CommonShare.Properties.Resources._1459234947_message_01;
+			this.pictureBox2.Location = new System.Drawing.Point(15, 13);
+			this.pictureBox2.Name = "pictureBox2";
+			this.pictureBox2.Size = new System.Drawing.Size(24, 24);
+			this.pictureBox2.TabIndex = 3;
+			this.pictureBox2.TabStop = false;
+			this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CoolForm_MouseDown);
 			// 
 			// pictureBox1
 			// 
@@ -151,5 +172,6 @@
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Button btnExit;
+		private System.Windows.Forms.Button button1;
 	}
 }

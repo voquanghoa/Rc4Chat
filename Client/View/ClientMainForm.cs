@@ -20,6 +20,19 @@ namespace Client
 		private TcpClientController tcpClientController;
 		private ConversationController conversationController = new ConversationController();
 
+		public override string DecodeKey
+		{
+			get
+			{
+				return tcpClientController.DecodeKey;
+			}
+
+			set
+			{
+				tcpClientController.DecodeKey = value;
+			}
+		}
+
 		public ClientMainForm()
 		{
 			InitializeComponent();
@@ -27,7 +40,7 @@ namespace Client
 
 		private void ClientMainForm_Load(object sender, EventArgs e)
 		{
-			tcpClientController = new TcpClientController(Constants.DefaultAddress, Constants.DefaultPort);
+			tcpClientController = new TcpClientController(Constants.DefaultAddress, Constants.DefaultPort, Constants.DefaultDecodeKey);
 			tcpClientController.ReceivedMessage += TcpClientController_ReceivedMessage;
 			tcpClientController.SentMessage += TcpClientController_SentMessage;
 

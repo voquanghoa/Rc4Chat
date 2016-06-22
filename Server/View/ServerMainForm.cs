@@ -11,6 +11,19 @@ namespace Server.View
 {
 	public partial class ServerMainForm : CoolForm
 	{
+		public override string DecodeKey
+		{
+			get
+			{
+				return tcpServer.DecodeKey;
+			}
+
+			set
+			{
+				tcpServer.DecodeKey = value;
+			}
+		}
+
 		private TcpServer tcpServer;
 		private ConversationController conversationController = new ConversationController();
 
@@ -21,7 +34,7 @@ namespace Server.View
 
 		private void ServerMainForm_Load(object sender, EventArgs e)
 		{
-			tcpServer = new TcpServer(Constants.DefaultAddress, Constants.DefaultPort);
+			tcpServer = new TcpServer(Constants.DefaultAddress, Constants.DefaultPort, Constants.DefaultDecodeKey);
 			tcpServer.RecevedMessage += TcpServer_RecevedMessage;
 			tcpServer.SentMessage += TcpServer_SentMessage;
 			tcpServer.ClientListChange += TcpServer_ClientListChange;

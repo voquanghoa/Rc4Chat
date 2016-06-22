@@ -62,6 +62,12 @@
     <Compile Include="View\CoolForm.Designer.cs">
       <DependentUpon>CoolForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\FormChangeKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormChangeKey.Designer.cs">
+      <DependentUpon>FormChangeKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormOpenFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <EmbeddedResource Include="View\CoolForm.resx">
       <DependentUpon>CoolForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\FormChangeKey.resx">
+      <DependentUpon>FormChangeKey.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormOpenFile.resx">
       <DependentUpon>FormOpenFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,6 +179,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mahoa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\icon_key.png" />
+    <None Include="Resources\icon_key1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

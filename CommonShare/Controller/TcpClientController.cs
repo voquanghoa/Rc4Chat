@@ -17,6 +17,18 @@ namespace CommonShare.Controller
 	{
 		#region Properties
 		public Client Client { private set; get; }
+		private string decodeKey;
+		public string DecodeKey
+		{	set
+			{
+				decodeKey = value;
+				stream.DecodeKey = value;
+			}
+			get
+			{
+				return decodeKey;
+			}
+		}
 		#endregion
 
 		#region Fields
@@ -41,9 +53,9 @@ namespace CommonShare.Controller
 		/// </summary>
 		/// <param name="ip"></param>
 		/// <param name="port"></param>
-		public TcpClientController(string ip, int port)
+		public TcpClientController(string ip, int port, string decodeKey)
 		{
-			
+			this.decodeKey = decodeKey;
 			Client = new Client(ip, port);
 			thread = new Thread(Listen);
 		}
@@ -52,14 +64,16 @@ namespace CommonShare.Controller
 		/// Create a controller for server
 		/// </summary>
 		/// <param name="tcpClient"></param>
-		public TcpClientController(TcpClient tcpClient)
+		public TcpClientController(TcpClient tcpClient, string decodeKey)
 		{
+			this.decodeKey = decodeKey;
 			this.tcpClient = tcpClient;
 			var endPoint = (IPEndPoint)tcpClient.Client.RemoteEndPoint;
 			var port = endPoint.Port;
 			var ip = endPoint.Address.ToString();
 			Client = new Client(ip, port);
 			thread = new Thread(Listen);
+
 		}
 
 		#endregion
@@ -74,7 +88,7 @@ namespace CommonShare.Controller
 					tcpClient = new TcpClient(Client.Ip, Client.Port);
 				}
 
-				stream = new RC4Stream(tcpClient.GetStream());
+				stream = new RC4Stream(tcpClient.GetStream(), DecodeKey);
 
 				thread.Start();
 			}

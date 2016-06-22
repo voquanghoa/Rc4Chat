@@ -9,11 +9,11 @@ namespace CommonShare.Util
 	public class RC4Converter
 	{
 		private Encoding unicode = Encoding.Unicode;
-		private string key;
+		public string DecodeKey { set; get; }
 
 		public RC4Converter(string key)
 		{
-			this.key = key;
+			this.DecodeKey = key;
 		}
 
 		public byte[] Encrypt(byte[] data)
@@ -28,7 +28,7 @@ namespace CommonShare.Util
 
 		private byte[] EncryptOutput(byte[] data)
 		{
-			var encryptedKey = EncryptInitalize(unicode.GetBytes(key));
+			var encryptedKey = EncryptInitalize(unicode.GetBytes(DecodeKey));
 			var result = new byte[data.Length];
 
 			for (int index = 0, a = 0, b = 0, c = 0; index < data.Length; index++)

@@ -17,6 +17,26 @@ namespace Server.Controller
 {
 	public class TcpServer
 	{
+		private string _decodeKey;
+		public string DecodeKey
+		{
+			set
+			{
+				_decodeKey = value;
+				lock (listControllerLockObject)
+				{
+					foreach (var controller in tcpClientControllers)
+					{
+						controller.DecodeKey = value;
+					}
+				}
+			}
+			get
+			{
+				return _decodeKey;
+			}
+		}
+
 		public event RecevedMessage RecevedMessage;
 		public event SentMessage SentMessage;
 
@@ -34,8 +54,9 @@ namespace Server.Controller
 		
 		private Thread mainThread;
 
-		public TcpServer(string ip, int port)
+		public TcpServer(string ip, int port, string decodeKey)
 		{
+			this._decodeKey = decodeKey;
 			tcpListener = new TcpListener(IPAddress.Parse(ip), port);
 		}
 
@@ -71,12 +92,11 @@ namespace Server.Controller
 					}
 
 					var tcpClient = tcpListener.AcceptTcpClient();
-					var tcpClientController = new TcpClientController(tcpClient);
+					var tcpClientController = new TcpClientController(tcpClient, DecodeKey);
 
 					tcpClientController.ReceivedMessage += Waiter_ReceiveMessage;
 					tcpClientController.SentFile += TcpClientController_SentFile;
 					tcpClientController.ReceivedFile += TcpClientController_ReceivedFile;
-					//tcpClientController. += Waiter_ClientDisconned;
 
 					tcpClientController.StartListen();
 

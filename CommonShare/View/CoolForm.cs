@@ -90,5 +90,13 @@ namespace CommonShare.View
 			}
 			base.WndProc(ref m);
 		}
+		
+		public virtual string DecodeKey { set; get; }
+		private void button1_Click(object sender, EventArgs e)
+		{
+			var form = new FormChangeKey(DecodeKey);
+			form.ShowDialog(this);
+			DecodeKey = form.Key;
+		}
 	}
 }

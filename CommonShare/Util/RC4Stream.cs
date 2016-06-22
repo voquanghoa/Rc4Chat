@@ -9,7 +9,17 @@ namespace CommonShare.Util
 {
 	public class RC4Stream
 	{
-		private const string key = "awkwzlawlauss2@ww";
+		public string DecodeKey
+		{
+			set
+			{
+				rc4Converter.DecodeKey = value;
+			}
+			get
+			{
+				return rc4Converter.DecodeKey;
+			}
+		}
 
 		private BinaryReader binReader;
 		private BinaryWriter binWriter;
@@ -18,12 +28,12 @@ namespace CommonShare.Util
 		private RC4Converter rc4Converter;
 		private Encoding encoding = Encoding.ASCII;
 
-		public RC4Stream(Stream stream)
+		public RC4Stream(Stream stream,string decodeKey)
 		{
 			this.binReader = new BinaryReader(stream);
 			this.binWriter = new BinaryWriter(stream);
 
-			this.rc4Converter = new RC4Converter(key);
+			this.rc4Converter = new RC4Converter(decodeKey);
 		}
 
 		public string Send(string message)
