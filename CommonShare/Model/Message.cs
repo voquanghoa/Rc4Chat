@@ -10,7 +10,8 @@ namespace CommonShare.Model
 {
 	public class Message
 	{
-		private static string allowChars = "!@#$%^&*() =+,./?;:|{}";
+		private static string htmlCode = @"<>\";
+		private static string allowChars = "!@#$%^&*() =+,./?;:|{}-";
 		private static string vietnameseChars = "aAeEoOuUiIdDyYáàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴéèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄóòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠúùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮíìịỉĩÍÌỊỈĨđĐýỳỵỷỹÝỲỴỶỸ";
 		public static Message CreateLink(string filePath, long fileSize, Client sender)
 		{
@@ -20,10 +21,12 @@ namespace CommonShare.Model
 				.Replace("{filename}", Path.GetFileName(filePath))
 				.Replace("{size}", FileSizeConverter.ConvertToString(fileSize));
 			message.Sender = sender;
-
+			message.InjectHtmlCode = true;
 
 			return message;
 		}
+
+		public bool InjectHtmlCode { get; set; }
 
 		public Client Sender { get; set; }
 
@@ -47,6 +50,7 @@ namespace CommonShare.Model
 							|| char.IsDigit(upper) 
 							|| allowChars.Contains(x)
 							|| vietnameseChars.Contains(x)
+							|| (InjectHtmlCode && htmlCode.Contains(x))
 						select x).ToArray());
 
 

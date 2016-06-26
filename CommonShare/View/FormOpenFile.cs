@@ -19,7 +19,7 @@ namespace CommonShare.View
 		public FormOpenFile(string address)
 		{
 			InitializeComponent();
-			Address = address.Replace("(~*)", ":").Replace("%5C", "\\");
+			Address = address.Replace("(*)", ":").Replace("%5C", "\\");
 		}
 
 		protected override CreateParams CreateParams
