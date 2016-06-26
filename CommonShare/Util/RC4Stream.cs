@@ -26,7 +26,7 @@ namespace CommonShare.Util
 
 		private byte[] buffer = new byte[10 * 1024];
 		private RC4Converter rc4Converter;
-		private Encoding encoding = Encoding.ASCII;
+		private Encoding encoding = Encoding.Unicode;
 
 		public RC4Stream(Stream stream,string decodeKey)
 		{
